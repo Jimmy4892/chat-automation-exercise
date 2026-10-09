@@ -31,40 +31,62 @@ Then open the printed local URL (typically `http://localhost:5173`).
 
 ## Running the tests locally
 
+Component/unit tests (Vitest + React Testing Library, headless, runs in milliseconds):
+
 ```bash
 npm test
 ```
 
-Runs the Vitest + React Testing Library suite once (no watch mode).
+End-to-end tests (Playwright, real Chromium browser against the running app):
+
+```bash
+npm run test:e2e          # headless, same as CI
+npm run test:e2e:headed   # opens a visible browser window
+npm run test:e2e:ui       # interactive UI mode — watch/step through each test
+```
+
+The first time, install the browser binary once: `npx playwright install chromium`.
+Playwright starts the dev server automatically, so you don't need `npm run dev`
+running first.
 
 ## What the tests cover
 
-The suite in `src/components/ChatWindow.test.jsx` is a small, representative
-slice of a larger manual test case list for this type of chat UI. Each test
-name is tagged with the corresponding test case ID for traceability:
+`src/components/ChatWindow.test.jsx` (Vitest + RTL) and `e2e/chat.spec.js`
+(Playwright) are a small, representative slice of a larger manual test case
+list for this type of chat UI. Each test name is tagged with the
+corresponding test case ID for traceability:
 
-| Test ID | Scenario                                                    |
-| ------- | ------------------------------------------------------------ |
-| TC-001  | Sends a valid message using the Send button                  |
-| TC-002  | Submits a valid message using Enter                           |
-| TC-003  | Shift+Enter inserts a line break without sending              |
-| TC-004  | Send is disabled when the input is empty                     |
-| TC-005  | Whitespace-only input cannot be submitted                    |
-| TC-007  | The user message appears once and in the correct order        |
-| TC-010  | A generating indicator is visible while waiting for a reply   |
-| TC-016  | "New Chat" creates a clean conversation                       |
+| Test ID | Scenario                                                    | Unit (RTL) | E2E (Playwright) |
+| ------- | ------------------------------------------------------------ | :--------: | :---------------: |
+| TC-001  | Sends a valid message using the Send button                  | ✅ | ✅ |
+| TC-002  | Submits a valid message using Enter                           | ✅ | ✅ |
+| TC-003  | Shift+Enter inserts a line break without sending              | ✅ |    |
+| TC-004  | Send is disabled when the input is empty                     | ✅ | ✅ |
+| TC-005  | Whitespace-only input cannot be submitted                    | ✅ |    |
+| TC-007  | The user message appears once and in the correct order        | ✅ |    |
+| TC-010  | A generating indicator is visible while waiting for a reply   | ✅ | ✅ |
+| TC-016  | "New Chat" creates a clean conversation                       | ✅ | ✅ |
+
+The Playwright subset deliberately covers only the key user-facing flows
+(not every unit test) — the RTL suite already gives full component-level
+coverage; the e2e suite exists to prove the same flows work in a real
+browser end-to-end.
 
 ## CI
 
 `.github/workflows/ci.yml` runs on every push and pull request to `main`:
-installs dependencies, runs the test suite, and builds the app, so a broken
-test or build fails the check.
+installs dependencies, runs the unit tests, installs the Playwright browser
+and runs the e2e tests (headless), then builds the app — so a broken test
+or build fails the check.
 
 ## Tech choices
 
 - **Vite + React** for a minimal, fast app shell — no router, no state
   library, no backend; just enough components to exercise real chat UI
   behavior.
-- **Vitest + React Testing Library** for tests, since they run in the same
-  toolchain as the app (no extra browser install needed in CI) and test the
-  UI the way a user interacts with it (by role/label/text, not internals).
+- **Vitest + React Testing Library** for the bulk of the tests, since they
+  run in the same toolchain as the app and test the UI the way a user
+  interacts with it (by role/label/text, not internals).
+- **Playwright** for a small e2e layer on top, to verify the same key flows
+  in a real browser and to make the suite watchable/demoable (`--headed` /
+  `--ui`), which jsdom-based tests can't offer.
