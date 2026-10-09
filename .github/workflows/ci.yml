@@ -19,6 +19,6 @@ jobs:
 
       - run: npm ci
       - run: npm test
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium firefox
       - run: npm run test:e2e
       - run: npm run build

@@ -37,6 +37,26 @@ test('TC-010: a generating indicator is visible while waiting for a reply', asyn
   await expect(page.getByText('You said: "ping"')).toBeVisible()
 })
 
+test('TC-013: rapid repeated Send actions do not create duplicate messages', async ({ page }) => {
+  await page.goto('/')
+  await page.getByLabel('Message input').fill('fast click')
+  const sendButton = page.getByRole('button', { name: 'Send' })
+  await sendButton.click()
+  await sendButton.click({ force: true })
+
+  await expect(page.getByText('fast click')).toHaveCount(1)
+})
+
+test('TC-036: HTML/script content in a message is rendered safely, not executed', async ({ page }) => {
+  await page.goto('/')
+  const payload = '<script>window.__xss = true</script>'
+  await page.getByLabel('Message input').fill(payload)
+  await page.getByLabel('Message input').press('Enter')
+
+  await expect(page.getByText(payload)).toBeVisible()
+  expect(await page.evaluate(() => window.__xss)).toBeUndefined()
+})
+
 test('TC-016: New Chat creates a clean conversation', async ({ page }) => {
   await page.goto('/')
   await page.getByLabel('Message input').fill('temporary message')
