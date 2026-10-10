@@ -5,7 +5,7 @@ import MessageList from './MessageList'
 let nextId = 1
 
 /**
- * Minimal chat window: sends a user message, simulates an assistant
+ * Minimal chat window: envia un mensaje al usuario, simulates an assistant
  * reply after a short delay, and supports starting a new conversation.
  */
 function ChatWindow() {
