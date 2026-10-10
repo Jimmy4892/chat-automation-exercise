@@ -85,12 +85,11 @@ covers one extra, non-release scenario (TC-003) kept from earlier work.
 -  Coverage Thinking: TC-007, TC-008, TC-009, TC-014, TC-015, TC-045, TC-051
 -  Testing Judgment: TC-003 and the intentional exclusion of out-of-scope scenarios
 
-**Spreadsheet cases intentionally not automated:** TC-017/018/019/020
-(conversation history list — not built), TC-011/012 (Stop-generation button
-— not built), TC-037/038/039 (real network-failure simulation — app has no
-backend), TC-042/043/044 (multi-account isolation — app has no accounts).
-Building those features was out of scope to keep this exercise small; see
-the test case spreadsheet for the full set.
+**Spreadsheet cases intentionally not automated:** 
+-  TC-017/018/019/020 (conversation history list — not built),
+-  TC-011/012 (Stop-generation button— not built),
+-  TC-037/038/039 (real network-failure simulation — app has no backend),
+-  TC-042/043/044 (multi-account isolation — app has no accounts).Building those features was out of scope to keep this exercise small; see the test case spreadsheet for the full set.
 
 The Playwright subset covers the highest-risk, most visual flows (not
 every unit test) — the RTL suite already gives full component-level
