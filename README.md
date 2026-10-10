@@ -79,6 +79,12 @@ covers one extra, non-release scenario (TC-003) kept from earlier work.
 | TC-045  | Medium | High   | Composer, Send and New Chat are reachable by keyboard          | ✅ |    |
 | TC-003  | *(not in Release Test Plan)* | Shift+Enter inserts a line break without sending | ✅ | |
 
+**Mapping to Evaluation Criteria**
+Critical Path Identification: TC-001, TC-002, TC-013, TC-016
+Risk-Based Prioritization: TC-004, TC-005, TC-010, TC-036
+Coverage Thinking: TC-007, TC-008, TC-009, TC-014, TC-015, TC-045, TC-051
+Testing Judgment: TC-003 and the intentional exclusion of out-of-scope scenarios
+
 **Spreadsheet cases intentionally not automated:** TC-017/018/019/020
 (conversation history list — not built), TC-011/012 (Stop-generation button
 — not built), TC-037/038/039 (real network-failure simulation — app has no
