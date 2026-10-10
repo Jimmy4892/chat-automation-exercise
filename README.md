@@ -88,8 +88,7 @@ the test case spreadsheet for the full set.
 
 The Playwright subset covers the highest-risk, most visual flows (not
 every unit test) — the RTL suite already gives full component-level
-coverage; the e2e suite exists to prove the same flows work in real
-browsers end-to-end. avoids unnecessary duplication
+coverage; while the e2e suite proves the same critical flows work in real browsers end-to-end and avoids unnecessary duplication.
 
 ## CI
 
